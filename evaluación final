@@ -1,0 +1,118 @@
+# creativos.cl
+asientos_platinum = [""] * 20
+asientos_gold = [""] * 30
+asientos_silver = [""] * 50
+asistente = []
+total_entradas = 0
+
+def mostrar_menu():
+  print()
+  print("---CREATIVOS.CL trae a  Michael jam---")
+  print("1) Comprar entradas")
+  print("2) mostrar ubicaciones disponibles ")
+  print("3) ver listado de Asistentes")
+  print("4) mostrar ganancia totales")
+  print("5) salir")
+
+def asientos_comprados():
+  print("platinum: ", end="")
+  for repeticion in range(len(asientos_platinum)):
+    if(asientos_platinum[repeticion]==""):
+      print(repeticion+1, end=" ")
+    else:
+      print("X",end=" ")
+
+  print()
+
+  print("gold: ", end="")
+  for repeticion in range(len(asientos_gold)):
+    if(asientos_gold[repeticion]==""):
+      print(repeticion+21, end=" ")
+    else:
+      print("X",end=" ")
+
+  print()
+
+  print("silver: ", end="")
+  for repeticion in range(len(asientos_silver)):
+    if(asientos_silver[repeticion]==""):
+      print(repeticion+51, end=" ")
+    else:
+      print("X",end=" ")
+
+def realizar_compra():
+  global total_entradas
+  cantidad = int(input("Ingresar entradas que desea comprar (1, 2 o 3)"))
+  if(cantidad <= 0 or cantidad >= 4):
+    print("Error la cantidad, debe señalar entre 1 y 3")
+    return
+
+  print(cantidad)
+  for repeticion in range(cantidad):
+    print("asientos disponibles:")
+    asientos_comprados()
+    asiento_libre = False
+    while not asiento_libre:
+      asiento = int(input("Seleccione asiento : "))
+      if asiento >= 1 and asiento <= 100:
+        if asiento <= 20 and asientos_platinum[asiento-1] == "":
+          asientos_platinum[asiento-1] = ingresar_rut()
+          asiento_libre = True
+          total_entradas = total_entradas + 120000
+          asistente.append(asientos_platinum[asiento -1])
+
+        elif asiento <= 50 and asientos_gold[asiento-21] == "":
+          asientos_gold[asiento-21] = ingresar_rut()
+          asiento_libre = True
+          total_entradas = total_entradas + 80000
+          asistente.append(asientos_gold[asiento -21])
+
+        elif asiento <= 100 and asientos_silver[asiento-31] == "":
+          asientos_silver[asiento-31] = ingresar_rut()
+          asiento_libre = True
+          total_entradas = total_entradas + 50000
+          asistente.append(asientos_silver[asiento -51])
+
+        if not asiento_libre:
+          print("no esta disponible")
+    print("la venta fue  exitosa")
+
+def ingresar_rut():
+  run_valido = False
+  while not run_valido:
+    run = input("Ingrese RUN de asistente sin Digito Verificador ni  guion: ")
+    if(len(run) == 7 or len(run) == 8):
+      run_valido = True
+
+  return run
+
+def mostrar_publico():
+  print("Lista de asistentes")
+  for asistentes in asistente:
+    print(asistente)
+def mostrar_ganancias_totales():
+  print(total_entradas)
+
+def inicio():
+  try:
+    while True:
+
+      mostrar_menu()
+      opcion = int(input("Ingrese opcion: "))
+      if opcion == 1:
+        realizar_compra()
+      elif opcion == 2:
+        asientos_comprados()
+      elif opcion == 3:
+        mostrar_publico()
+      elif opcion == 4:
+        mostrar_ganancias_totales()
+      elif opcion == 5:
+        print("Gracias por compra realizada")
+        break
+  except:
+    print("ERROR,intente nuevamente")
+
+
+
+inicio()
